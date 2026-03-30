@@ -21,19 +21,26 @@ export function Contact() {
 
   useGSAP(
     () => {
+      ScrollTrigger.refresh();
+
       const items = sectionRef.current?.querySelectorAll("[data-reveal]");
       if (items) {
-        gsap.from(items, {
-          y: 40,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-          },
-        });
+        gsap.fromTo(
+          items,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
     },
     { scope: sectionRef }

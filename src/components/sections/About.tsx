@@ -5,7 +5,6 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Marquee } from "@/components/core/Marquee";
 import { MagneticElement } from "@/components/core/MagneticElement";
 import { portfolioData } from "@/data/portfolio";
 import { TbBrandLinkedin, TbBrandWhatsapp, TbMail, TbDownload } from "react-icons/tb";
@@ -36,45 +35,98 @@ export function About() {
         }
       }
 
+      ScrollTrigger.refresh();
+
       // Text paragraphs slide up
       if (textRef.current) {
         const paragraphs = textRef.current.querySelectorAll("[data-reveal]");
-        gsap.from(paragraphs, {
-          y: 50,
-          opacity: 0,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: textRef.current,
-            start: "top 75%",
-          },
-        });
+        gsap.fromTo(
+          paragraphs,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.15,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: textRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
       // Section heading
       const heading = sectionRef.current?.querySelector("[data-heading]");
       if (heading) {
-        gsap.from(heading, {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: heading,
-            start: "top 85%",
-          },
-        });
+        gsap.fromTo(
+          heading,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: heading,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Terminal animation
+      const terminal = sectionRef.current?.querySelector("[data-terminal]");
+      if (terminal) {
+        // Terminal container reveal
+        gsap.fromTo(
+          terminal,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: terminal,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+
+        // Lines appear one by one with typing effect
+        const lines = terminal.querySelectorAll("[data-line]");
+        gsap.fromTo(
+          lines,
+          { opacity: 0, x: -10 },
+          {
+            opacity: 1,
+            x: 0,
+            stagger: 0.12,
+            duration: 0.3,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: terminal,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+            delay: 0.3,
+          }
+        );
       }
     },
     { scope: sectionRef }
   );
 
-  const skillCategories = [
-    { label: "Frontend", skills: portfolioData.skills.frontend, direction: "left" as const },
-    { label: "Backend", skills: portfolioData.skills.backend, direction: "right" as const },
-    { label: "Mobile", skills: portfolioData.skills.mobile, direction: "left" as const },
-    { label: "Outils", skills: portfolioData.skills.tools, direction: "right" as const },
+  const commands = [
+    { cmd: "skills --frontend", skills: portfolioData.skills.frontend, color: "text-blue-400" },
+    { cmd: "skills --backend", skills: portfolioData.skills.backend, color: "text-emerald-400" },
+    { cmd: "skills --mobile", skills: portfolioData.skills.mobile, color: "text-amber-400" },
+    { cmd: "skills --tools", skills: portfolioData.skills.tools, color: "text-purple-400" },
   ];
 
   return (
@@ -164,20 +216,74 @@ export function About() {
           </div>
         </div>
 
-        {/* Skills marquees */}
-        <div className="space-y-4">
-          {skillCategories.map((cat) => (
-            <Marquee key={cat.label} speed={35} direction={cat.direction} pauseOnHover>
-              {cat.skills.map((skill, i) => (
-                <span
-                  key={i}
-                  className="mx-3 px-5 py-2.5 rounded-full border border-border text-text-secondary text-sm font-body whitespace-nowrap hover:border-accent/50 hover:text-text-primary transition-colors duration-300"
-                >
-                  {skill}
-                </span>
-              ))}
-            </Marquee>
-          ))}
+        {/* Terminal */}
+        <div
+          data-terminal
+          className="rounded-xl border border-border overflow-hidden bg-[#0c0c0c] shadow-2xl shadow-black/50"
+        >
+          {/* Title bar */}
+          <div className="flex items-center gap-2 px-4 py-3 bg-bg-tertiary/80 border-b border-border">
+            <div className="flex gap-1.5">
+              <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+              <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
+              <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+            </div>
+            <span className="text-[11px] text-text-muted font-mono ml-2 tracking-wide">
+              mathias@portfolio ~ /skills
+            </span>
+          </div>
+
+          {/* Terminal body */}
+          <div className="p-5 sm:p-6 font-mono text-sm leading-relaxed space-y-4 overflow-x-auto">
+            {/* Intro */}
+            <div data-line className="text-text-muted">
+              <span className="text-emerald-400">$</span> cat welcome.txt
+            </div>
+            <div data-line className="text-text-secondary pl-4">
+              Bienvenue dans mon stack technique. Voici les technologies que je maîtrise.
+            </div>
+
+            <div data-line className="h-px bg-border/50 my-2" />
+
+            {/* Commands */}
+            {commands.map((block) => (
+              <div key={block.cmd} className="space-y-2">
+                <div data-line>
+                  <span className="text-emerald-400">$</span>{" "}
+                  <span className="text-text-primary">{block.cmd}</span>
+                </div>
+                <div data-line className="pl-4 flex flex-wrap gap-2">
+                  {block.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className={`px-2.5 py-1 rounded text-xs border border-current/20 bg-current/5 ${block.color} hover:bg-current/10 transition-colors duration-200 cursor-default`}
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            <div data-line className="h-px bg-border/50 my-2" />
+
+            {/* Summary */}
+            <div data-line className="text-text-muted">
+              <span className="text-emerald-400">$</span> echo $TOTAL_SKILLS
+            </div>
+            <div data-line className="pl-4">
+              <span className="text-accent font-bold">
+                {commands.reduce((acc, c) => acc + c.skills.length, 0)}
+              </span>{" "}
+              <span className="text-text-muted">technologies maîtrisées</span>
+            </div>
+
+            {/* Blinking cursor */}
+            <div data-line className="flex items-center gap-1">
+              <span className="text-emerald-400">$</span>
+              <span className="w-2 h-4 bg-emerald-400 animate-pulse" />
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -8,10 +8,10 @@ import { portfolioData } from "@/data/portfolio";
 
 export const metadata: Metadata = {
   title: `${portfolioData.name} - ${portfolioData.role}`,
-  description: `Portfolio professionnel de ${portfolioData.name}, ${portfolioData.role} basé à Douala. Spécialisé en développement web, React, Laravel, WordPress et E-commerce.`,
+  description: `Portfolio de ${portfolioData.name}, Webmaster & Développeur Web basé à Douala. Conception de sites vitrines, e-commerce et applications web sur mesure avec React, Laravel, WordPress et Shopify. Disponible pour vos projets digitaux.`,
   openGraph: {
     title: `${portfolioData.name} - ${portfolioData.role}`,
-    description: `Portfolio de ${portfolioData.name}. Webmaster et Développeur Junior spécialisé en création de sites fonctionnels.`,
+    description: `${portfolioData.name} — Webmaster & Développeur Web à Douala. Sites vitrines, e-commerce et applications web sur mesure. Contactez-moi pour donner vie à votre projet digital.`,
     type: "website",
   },
 };

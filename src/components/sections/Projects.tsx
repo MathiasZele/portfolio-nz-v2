@@ -16,27 +16,45 @@ export function Projects() {
 
   useGSAP(
     () => {
+      ScrollTrigger.refresh();
+
       const heading = sectionRef.current?.querySelector("[data-heading]");
       if (heading) {
-        gsap.from(heading, {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: heading, start: "top 85%" },
-        });
+        gsap.fromTo(
+          heading,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: heading,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
       const rows = sectionRef.current?.querySelectorAll("[data-project-row]");
       if (rows) {
         rows.forEach((row) => {
-          gsap.from(row, {
-            y: 40,
-            opacity: 0,
-            duration: 0.7,
-            ease: "power3.out",
-            scrollTrigger: { trigger: row, start: "top 85%" },
-          });
+          gsap.fromTo(
+            row,
+            { y: 30, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: row,
+                start: "top 92%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
         });
       }
     },

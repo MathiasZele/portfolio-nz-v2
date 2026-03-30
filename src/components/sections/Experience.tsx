@@ -13,27 +13,46 @@ export function Experience() {
 
   useGSAP(
     () => {
+      // Small delay to let Lenis sync with ScrollTrigger
+      ScrollTrigger.refresh();
+
       const heading = sectionRef.current?.querySelector("[data-heading]");
       if (heading) {
-        gsap.from(heading, {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: heading, start: "top 85%" },
-        });
+        gsap.fromTo(
+          heading,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: heading,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
       const items = sectionRef.current?.querySelectorAll("[data-item]");
       if (items) {
         items.forEach((item) => {
-          gsap.from(item, {
-            y: 40,
-            opacity: 0,
-            duration: 0.7,
-            ease: "power3.out",
-            scrollTrigger: { trigger: item, start: "top 85%" },
-          });
+          gsap.fromTo(
+            item,
+            { y: 30, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: item,
+                start: "top 92%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
         });
       }
     },

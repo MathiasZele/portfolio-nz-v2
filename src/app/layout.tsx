@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: `%s | ${portfolioData.name}`,
     default: `${portfolioData.name} - ${portfolioData.role}`,
   },
-  description: `${portfolioData.about} Développeur Web et Webmaster spécialisé en React, Laravel, WordPress et E-commerce.`,
+  description: `Portfolio de ${portfolioData.name}, Webmaster & Développeur Web basé à Douala. Conception de sites vitrines, e-commerce et applications web sur mesure avec React, Laravel, WordPress et Shopify. Disponible pour vos projets digitaux.`,
   keywords: [
     "Mathias Zele",
     "Développeur Web",
